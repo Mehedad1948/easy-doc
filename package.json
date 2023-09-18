@@ -16,6 +16,7 @@
     "@uiw/react-md-editor": "2.1.1",
     "axios": "^1.5.0",
     "esbuild-wasm": "^0.19.2",
+    "immer": "^10.0.2",
     "localforage": "^1.10.0",
     "monaco-editor": "^0.43.0",
     "prettier": "^3.0.3",

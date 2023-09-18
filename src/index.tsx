@@ -1,6 +1,8 @@
 import * as esbuild from 'esbuild-wasm';
 import { useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { store } from './store';
 import './index.css';
 
 import CodeCell from './components/code-cell';
@@ -26,11 +28,13 @@ const App = () => {
   }, []);
 
   return (
-    <div className=' divide-slate-500 h-full bg-slate-800 '>
-      <CodeCell builder={builder} />
-      {/* <CodeCell builder={ref.current} /> */}
-      <TextEditor />
-    </div>
+    <Provider store={store}>
+      <div className=' divide-slate-500 h-full bg-slate-800 '>
+        <CodeCell builder={builder} />
+        {/* <CodeCell builder={ref.current} /> */}
+        <TextEditor />
+      </div>
+    </Provider>
   );
 };
 
