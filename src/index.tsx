@@ -1,19 +1,37 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import * as esbuild from 'esbuild-wasm';
+import { useEffect, useRef, useState } from 'react';
+import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+import CodeCell from './components/code-cell';
+import TextEditor from './components/text-editor';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const App = () => {
+  const [isInitiated, setIsInitiated] = useState(false);
+  const [builder, setBuilder] = useState<any>(null);
+
+  const startService = async () => {
+    if (!isInitiated || !builder) {
+      const service = await esbuild.initialize({
+        // wasmURL: '/esbuild.wasm',
+        wasmURL: 'https://unpkg.com/esbuild-wasm/esbuild.wasm',
+      });
+      setBuilder(esbuild);
+      setIsInitiated(true);
+    }
+  };
+
+  useEffect(() => {
+    startService();
+  }, []);
+
+  return (
+    <div className=' divide-slate-500 h-full bg-slate-800 '>
+      <CodeCell builder={builder} />
+      {/* <CodeCell builder={ref.current} /> */}
+      <TextEditor />
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.querySelector('#root'));
